@@ -10,6 +10,7 @@ class AgentTalker(Node):
     def __init__(self, agent_name):
         """ Initialize the AgentTalker class. """
         super(AgentTalker, self).__init__(agent_name + '_talker')
+        self.agent_name = agent_name
         ## Create a publisher.
         self.publisher = self.create_publisher(String, agent_name + '/heartbeat', 10)
         ## Create a timer.
@@ -17,24 +18,24 @@ class AgentTalker(Node):
         self.timer = self.create_timer(timer_period, self.timer_callback)
         ## Create a counter.
         self.i = 0
-        self.agent_name = agent_name
 
     def timer_callback(self):
         """ Timer callback function. """
+        ## Publish a message to the agent/heartbeat topic.
         msg = String()
         msg.data = f"{self.agent_name} - {self.i}"
         self.publisher.publish(msg)
-        self.get_logger().info('Publishing: "%s"' % msg.data)
+        self.get_logger().info(self.agent_name + ' publishing: "%s"' % msg.d)
         self.i += 1 
+
 
 def main(args=None):
     """ Main function. """
     rclpy.init(args=args)
-    
+    ## Create an argument parser.
     parser = argparse.ArgumentParser(description='AgentTalker Node')
     parser.add_argument('agent_name', type=str, help='Name of the agent')
     args = parser.parse_args()
-    
     ## Create an AgentTalker object with the provided agent name.
     agent_talker = AgentTalker(args.agent_name)
     ## Spin the AgentTalker object.
@@ -43,6 +44,7 @@ def main(args=None):
     agent_talker.destroy_node()
     ## Shutdown the ROS2 client.
     rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()
