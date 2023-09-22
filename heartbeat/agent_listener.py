@@ -11,20 +11,20 @@ class AgentListener(Node):
         """ Initialize the AgentListener class. """
         super(AgentListener, self).__init__(agent_name + '_listener')
         self.agent_name = agent_name
-        # Create a subscriber.
+        ## Create a subscriber.
         self.subscription = self.create_subscription(
             String,
             'base_station/heartbeat',
             self.listener_callback,
             10)
-        # Prevent unused variable warning
+        ## Prevent unused variable warning
         self.subscription  
-        # Create a publisher.
+        ## Create a publisher.
         self.publisher = self.create_publisher(String, agent_name + '/status', 10)
-        # Create a timer.
-        timer_period = 1.0  # seconds
+        ## Create a timer.
+        timer_period = 1.0  ## seconds
         self.timer = self.create_timer(timer_period, self.status_identifier)
-        # Create a message.
+        ## Create a message.
         self.msg = ''
 
     def listener_callback(self, msg):
@@ -38,33 +38,33 @@ class AgentListener(Node):
             agent/status topic. """
         if len(self.msg) == 0:
             status = 'disconnected'
-            # Example of changing state depending on the status
+            ## Example of changing state depending on the status
             self.get_logger().info(self.agent_name + ' state changed to: "returning to base station"')
         else:
             status = 'connected'
-            # Example of changing state depending on the status
+            ## Example of changing state depending on the status
             self.get_logger().info(self.agent_name + ' state changed to: "exploring"')
-        # Publish a message to the agent/status topic.
+        ## Publish a message to the agent/status topic.
         msg = String()
         msg.data = status
         self.publisher.publish(msg)
         self.get_logger().info(self.agent_name + ' publishing: "%s"' % msg.data)
-        # Reset the message.
+        ## Reset the message.
         self.msg = ''
 
 
 def main(args=None):
     """ Main function. """
     rclpy.init(args=args)
-    # Create an AgentListener object with the provided agent name.
+    ## Create an AgentListener object with the provided agent name.
     parser = argparse.ArgumentParser(description='Agent Listener')
     parser.add_argument('agent_name', type=str, help='Name of the agent')
     args = parser.parse_args()
-    # Create an AgentListener object with the provided agent name.
+    ## Create an AgentListener object with the provided agent name.
     agent_listener = AgentListener(args.agent_name)
-    # Keep the node alive
+    ## Keep the node alive
     rclpy.spin(agent_listener)
-    # Destroy the node explicitly
+    ## Destroy the node explicitly
     agent_listener.destroy_node()
     rclpy.shutdown()
 
