@@ -39,16 +39,15 @@ class AgentListener(Node):
         if len(self.msg) == 0:
             status = 'disconnected'
             ## Example of changing state depending on the status
-            self.get_logger().info(self.agent_name + ' state changed to: "returning to base station"')
+            self.get_logger().info(self.agent_name + ' state: "returning to base"')
         else:
             status = 'connected'
             ## Example of changing state depending on the status
-            self.get_logger().info(self.agent_name + ' state changed to: "exploring"')
+            self.get_logger().info(self.agent_name + ' state: "exploring"')
         ## Publish a message to the agent/status topic.
         msg = String()
         msg.data = status
         self.publisher.publish(msg)
-        self.get_logger().info(self.agent_name + ' publishing: "%s"' % msg.data)
         ## Reset the message.
         self.msg = ''
 

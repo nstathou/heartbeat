@@ -24,7 +24,7 @@ class BSListener(Node):
 
     def listener_callback(self, msg, i):
         """ Listener callback function. """
-        self.get_logger().info('Agent ' + str(i) + ' heard: "%s"' % msg.data)
+        self.get_logger().info('Base station heard: "%s"' % msg.data)
         ## Publish a message to the base_station/status topic.
         self.msgs[i] = msg.data
 

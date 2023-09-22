@@ -22,7 +22,7 @@ class BSTalker(Node):
         msg = String()
         msg.data = str(self.i)
         self.publisher.publish(msg)
-        self.get_logger().info('Publishing: "%s"' % msg.data)
+        self.get_logger().info('Base station publishing: "%s"' % msg.data)
         self.i += 1
 
 

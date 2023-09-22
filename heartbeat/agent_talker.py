@@ -23,9 +23,9 @@ class AgentTalker(Node):
         """ Timer callback function. """
         ## Publish a message to the agent/heartbeat topic.
         msg = String()
-        msg.data = f"{self.agent_name} - {self.i}"
+        msg.data = self.i
         self.publisher.publish(msg)
-        self.get_logger().info(self.agent_name + ' publishing: "%s"' % msg.d)
+        self.get_logger().info(self.agent_name + ' publishing: ' + msg.data)
         self.i += 1 
 
 
